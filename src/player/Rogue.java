@@ -18,11 +18,12 @@ public class Rogue extends PlayerClass {
     public void showStats() {
         System.out.println("\n===== PLAYER STATS =====" +
                 "\nName: " + this.name +
+                "\nLevel: " + this.level +
                 "\nHealth: " + health +
                 "\nAttack: " + attack +
                 "\nAgility: " + agility+
                 "\nMoney: " + this.money+
-                "\nExp: " + this.exp +
+                "\nExp: " + this.exp + "/" + this.maxExp +
                 "\n========================\n");
     }
 }

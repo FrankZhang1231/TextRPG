@@ -18,11 +18,12 @@ public class Knight extends PlayerClass {
     public void showStats() {
         System.out.println("\n===== PLAYER STATS =====" +
                 "\nName: " + this.name +
+                "\nLevel: " + this.level +
                 "\nHealth: " + health +
                 "\nAttack: " + attack +
                 "\nDefense: " + defense +
                 "\nMoney: " + this.money +
-                "\nExp: " + this.exp +
+                "\nExp: " + this.exp + "/" + this.maxExp +
                 "\n========================\n");
     }
 

@@ -37,8 +37,9 @@ public class Main {
         }
 
         player.describe();
+        System.out.println("Here is your starting stats: ");
+        player.showStats();
 
-        boolean playerAction = true;
 
         while(true) {
             pAction(player);
@@ -60,11 +61,13 @@ public class Main {
     }
 
     public static void battle(PlayerClass a, Enemy b) {
-        System.out.println("\nA wild " + b.getName() + " appears!\n");
+        System.out.println("\nA wild Lvl." + b.getLevel() + " " + b.getName() + " appears!\n");
         int turn = 1;
         while (true) {
 
-            System.out.println("Turn: " + turn);
+            System.out.println("------------- Turn " + turn + " -------------");
+            System.out.println(a.getName() + ": " + a.getHealth() + "/" + a.getMaxHp() + " HP");
+            System.out.println(b.getName() + " (Lvl " + b.getLevel() + "): " + b.getHealth() + "/" + b.getMaxHp() + " HP\n");
             System.out.println("What will you do next: \n[1] Attack");
             String pChoice = input.nextLine();
             if (pChoice.equals("1")) {
@@ -73,6 +76,7 @@ public class Main {
 
             if (b.death()) {
                 System.out.println(b.getName() + " is defeated!");
+                a.gainExp(b);
                 break;
             }
 
@@ -84,8 +88,8 @@ public class Main {
                 break;
             }
 
-            System.out.println("\n---------------------------------\n");
             turn++;
+
         }
     }
 }
