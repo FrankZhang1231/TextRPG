@@ -9,21 +9,13 @@ public class Rogue extends PlayerClass {
     }
 
     @Override
-    public void describe() {
-        System.out.println("You've chosen Rogue who has low health, high attack\n" +
-                "with chance of dodging enemy attacks.\n");
+    public String getUniqueStat() {
+        return "Agility: " + this.agility;
     }
 
     @Override
-    public void showStats() {
-        System.out.println("\n===== PLAYER STATS =====" +
-                "\nName: " + this.name +
-                "\nLevel: " + this.level +
-                "\nHealth: " + health +
-                "\nAttack: " + attack +
-                "\nAgility: " + agility+
-                "\nMoney: " + this.money+
-                "\nExp: " + this.exp + "/" + this.maxExp +
-                "\n========================\n");
+    public void describe() {
+        System.out.println("You've chosen Rogue who has low health, high attack\n" +
+                "with chance of dodging enemy attacks.\n");
     }
 }

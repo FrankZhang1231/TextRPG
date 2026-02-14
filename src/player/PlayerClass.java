@@ -1,8 +1,13 @@
 package player;
 
 import npc.mobs.Enemy;
+import java.util.Scanner;
+import java.util.*;
 
 abstract public class PlayerClass {
+
+    public static final Scanner input = new Scanner(System.in);
+
     protected String name;
     protected int health;
     protected int maxHp;
@@ -11,6 +16,7 @@ abstract public class PlayerClass {
     protected int money = 0;
     protected int exp = 0;
     protected int maxExp;
+    protected int statPoints = 0;
 
 
     public PlayerClass(String name, int health, int attack) {
@@ -56,6 +62,7 @@ abstract public class PlayerClass {
         int remainExp = this.exp - this.maxExp;
         this.level += 1;
         this.exp = remainExp;
+        this.statPoints += 3;
         expNeeded(this.level);
         System.out.println("Level: " + this.level);
         System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
@@ -66,10 +73,65 @@ abstract public class PlayerClass {
         //System.out.println("You have " + this.health + " health remaining.");
     }
 
-
+    public boolean run() {
+        int successChance = 80;
+        int roll = (int)(Math.random() * 101);
+        return roll <= successChance;
+    }
 
     public boolean death() { return this.health <= 0; }
 
+    public void showStats() {
+        while (true) {
+            printStats();  // extracted method
+
+            List<String> options = new ArrayList<>();
+            if (statPoints > 0) {
+                options.add("[1] Upgrade Health (+5 HP)");
+                options.add("[2] Upgrade Attack (+1 ATK)");
+                options.add("[3] Back");
+            } else {
+                options.add("[1] Back");
+            }
+
+            options.forEach(System.out::println);
+
+            String choice = input.nextLine();
+            if (statPoints > 0) {
+                switch (choice) {
+                    case "1" -> {
+                        health += 5;
+                        statPoints--;
+                    }
+                    case "2" -> {
+                        attack += 1;
+                        statPoints--;
+                    }
+                    case "3" -> {
+                        return; // back
+                    }
+                    default -> System.out.println("Not a valid option.");
+                }
+            } else {
+                if (choice.equals("1")) return;
+                System.out.println("Not a valid option.");
+            }
+        }
+    }
+
+    private void printStats() {
+        System.out.println("\n===== PLAYER STATS =====" +
+                "\nName: " + name +
+                "\nLevel: " + level +
+                "\nHealth: " + health +
+                "\nAttack: " + attack +
+                "\n" + getUniqueStat() +
+                "\nMoney: " + money +
+                "\nExp: " + exp + "/" + maxExp +
+                "\nStat Points Remaining: " + statPoints +
+                "\n========================");
+    }
+
     abstract public void describe();
-    abstract public void showStats();
+    abstract public String getUniqueStat();
 }

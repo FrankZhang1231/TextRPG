@@ -1,8 +1,16 @@
 package npc.mobs.regular;
 import npc.mobs.Enemy;
 
+
+import java.util.Random;
+
 public class Goblin extends Enemy {
-    public Goblin() {
-        super("Goblin", 3, 3, 1, 1.0);
+
+    private static final Random rand = new Random();
+
+    public Goblin(int min, int max) {
+        super("Goblin", min, max, 1.0,
+                4.0, 1.15,
+                2.0, 1.1);
     }
 }

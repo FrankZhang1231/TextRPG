@@ -1,6 +1,10 @@
+import events.Tutorial;
 import npc.mobs.Enemy;
 import npc.mobs.regular.Goblin;
 import player.*;
+import unifunct.BattleManager;
+import java.util.*;
+
 import java.util.*;
 
 public class Main {
@@ -9,11 +13,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.print("Hello traveller, welcome to the world of Magnolia. What is your name?: ");
+        System.out.print("You awaken in a dense, misty forest. The last thing you remember is a bright flash of light and then… nothing. \n" +
+                "A strange voice whispers: \"chosen one\" what is your name?: ");
         String name = input.nextLine();
 
-        System.out.print("Welcome " + name + ", you can choose between being a knight, rogue, or mage.\n" +
-                "What is your future path?: ");
+        System.out.print("Welcome " + name + ". The world of Magnolia overrun by monsters and demons, awaits you." +
+                        "\nA sturdy Knight - your armor may be light now, but your courage will carry you through." +
+                        "\nA cunning Rogue - Quick and clever, your wits may be your greatest weapon." +
+                        "\nA Mage of promise - Your magic is raw, but your mind holds endless possibilities." +
+                "\nPlease choose your destiny: "
+                );
+
         PlayerClass player = null;
 
         boolean chooseClass = true;
@@ -37,10 +47,10 @@ public class Main {
         }
 
         player.describe();
-        System.out.println("Here is your starting stats: ");
+        System.out.println("A strange visual with numbers appeared inside your mind.");
         player.showStats();
 
-
+        Tutorial.tutorial(player);
         while(true) {
             pAction(player);
         }
@@ -55,41 +65,11 @@ public class Main {
         if (pChoice.equals("1")) {
             b.showStats();
         } else if (pChoice.equals("2")) {
-            Enemy mob = new Goblin();
-            battle(b, mob);
+            int minLevel = 1;
+            int maxLevel = 5;
+            Enemy mob = new Goblin(minLevel, maxLevel);
+            BattleManager.battle(b, mob);
         }
     }
 
-    public static void battle(PlayerClass a, Enemy b) {
-        System.out.println("\nA wild Lvl." + b.getLevel() + " " + b.getName() + " appears!\n");
-        int turn = 1;
-        while (true) {
-
-            System.out.println("------------- Turn " + turn + " -------------");
-            System.out.println(a.getName() + ": " + a.getHealth() + "/" + a.getMaxHp() + " HP");
-            System.out.println(b.getName() + " (Lvl " + b.getLevel() + "): " + b.getHealth() + "/" + b.getMaxHp() + " HP\n");
-            System.out.println("What will you do next: \n[1] Attack");
-            String pChoice = input.nextLine();
-            if (pChoice.equals("1")) {
-                a.attack(b);
-            }
-
-            if (b.death()) {
-                System.out.println(b.getName() + " is defeated!");
-                a.gainExp(b);
-                break;
-            }
-
-            System.out.println(b.getName() + " attacks!");
-            b.attack(a);
-
-            if (a.death()) {
-                System.out.println("You have been defeated...");
-                break;
-            }
-
-            turn++;
-
-        }
-    }
 }

@@ -10,21 +10,13 @@ public class Mage extends PlayerClass {
     }
 
     @Override
-    public void describe() {
-        System.out.println("You've chosen Mage who has moderate health, high attack\n" +
-                "with chance of causing \"overflow\" (extra dmg).\n");
+    public String getUniqueStat() {
+        return "Mana: " + this.mana;
     }
 
     @Override
-    public void showStats() {
-        System.out.println("\n===== PLAYER STATS =====" +
-                "\nName: " + this.name +
-                "\nLevel: " + this.level +
-                "\nHealth: " + health +
-                "\nAttack: " + attack +
-                "\nMana: " + mana +
-                "\nMoney: " + this.money+
-                "\nExp: " + this.exp + "/" + this.maxExp +
-                "\n========================\n");
+    public void describe() {
+        System.out.println("You've chosen Mage who has moderate health, high attack\n" +
+                "with chance of causing \"overflow\" (extra dmg).\n");
     }
 }

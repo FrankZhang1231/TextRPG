@@ -11,13 +11,20 @@ abstract public class Enemy {
     protected int exp;
     protected int maxHp;
 
-    public Enemy(String name,int level, int health, int attack, double expMulti) {
+    private static final Random rand = new Random();
+
+    public Enemy(String name, int minLevel, int maxLevel, double expMulti,
+                 double hpMultiplier, double hpExponent,
+                 double atkMultiplier, double atkExponent) {
         this.name = name;
-        this.health = health;
-        this.maxHp = health;
-        this.attack = attack;
-        this.level = level;
-        this.exp = calculateExp(level, expMulti);
+        this.level = rand.nextInt(maxLevel - minLevel + 1) + minLevel;
+        int baseHealth = (int) (Math.round(Math.pow(this.level * hpMultiplier, hpExponent)));
+        int healthVariation = (int) (baseHealth * 0.1);
+        this.maxHp = this.health = baseHealth + rand.nextInt(healthVariation + 1);
+        int baseAtk = (int) Math.round(Math.pow(this.level * atkMultiplier, atkExponent));
+        int atkVariation = (int) (baseAtk * 0.1);
+        this.attack = baseAtk + rand.nextInt(atkVariation + 1);
+        this.exp = calculateExp(this.level, expMulti);
     }
 
     public String getName() { return this.name; }
