@@ -40,7 +40,7 @@ abstract public class Enemy {
     public int getExp() { return this.exp; }
 
     public void attack(PlayerClass a) {
-        System.out.println(this.name + " dealt " + this.attack + " damage to you.");
+        System.out.println(this.name + " dealt " + this.attack + " damage to you.\n");
         a.takeDamage(this.attack);
     }
 

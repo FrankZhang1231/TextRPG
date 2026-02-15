@@ -4,9 +4,9 @@ import npc.mobs.Enemy;
 import player.PlayerClass;
 import java.util.*;
 
-public class BattleManager {
+import static player.PlayerClass.input;
 
-    public static final Scanner input = new Scanner(System.in);
+public class BattleManager {
 
     public static void battle(PlayerClass a, Enemy b) {
         System.out.println("\nA wild Lvl." + b.getLevel() + " " + b.getName() + " appears!\n");

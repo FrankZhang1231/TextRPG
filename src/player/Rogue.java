@@ -5,7 +5,7 @@ public class Rogue extends PlayerClass {
     private int agility = 0;
 
     public Rogue(String name) {
-        super(name, 65, 2);
+        super(name, 65, 4);
     }
 
     @Override

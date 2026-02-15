@@ -5,7 +5,7 @@ public class Knight extends PlayerClass {
     private int defense = 1;
 
     public Knight(String name) {
-        super(name, 100, 1);
+        super(name, 100, 2);
     }
 
     @Override

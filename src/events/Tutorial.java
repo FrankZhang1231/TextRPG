@@ -4,7 +4,8 @@ import npc.mobs.Enemy;
 import npc.mobs.regular.Goblin;
 import player.PlayerClass;
 
-import static unifunct.BattleManager.input;
+import static player.PlayerClass.input;
+
 
 public class Tutorial {
 
@@ -58,7 +59,7 @@ public class Tutorial {
                         a.attack(b);
                         valid = true;
                     }
-                    case "2" -> System.out.println("You cannot run from the first battle.");
+                    case "2" -> System.out.println("You cannot run from the first battle.\n");
                     default -> System.out.println("Not a valid option.");
                 }
             }

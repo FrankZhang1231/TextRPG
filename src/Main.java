@@ -1,15 +1,20 @@
 import events.Tutorial;
+import locations.startarea.StarterArea;
 import npc.mobs.Enemy;
 import npc.mobs.regular.Goblin;
 import player.*;
 import unifunct.BattleManager;
+import unifunct.PlayerMenu;
+
 import java.util.*;
 
 import java.util.*;
+
+import static player.PlayerClass.input;
 
 public class Main {
 
-    private static final Scanner input = new Scanner(System.in);
+    public static final String location = "main";
 
     public static void main(String[] args) {
 
@@ -51,25 +56,9 @@ public class Main {
         player.showStats();
 
         Tutorial.tutorial(player);
+
         while(true) {
-            pAction(player);
-        }
-
-    }
-
-    public static void pAction(PlayerClass b) {
-        System.out.println("What will you do next: " +
-                "\n[1] Show Stats" +
-                "\n[2] Encounter Goblin");
-        String pChoice = input.nextLine();
-        if (pChoice.equals("1")) {
-            b.showStats();
-        } else if (pChoice.equals("2")) {
-            int minLevel = 1;
-            int maxLevel = 5;
-            Enemy mob = new Goblin(minLevel, maxLevel);
-            BattleManager.battle(b, mob);
+            PlayerMenu.playerMenu(player, location);
         }
     }
-
 }

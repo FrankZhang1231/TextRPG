@@ -10,7 +10,7 @@ public class Goblin extends Enemy {
 
     public Goblin(int min, int max) {
         super("Goblin", min, max, 1.0,
-                4.0, 1.15,
+                6, 1.25,
                 2.0, 1.1);
     }
 }

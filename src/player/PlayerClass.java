@@ -47,13 +47,20 @@ abstract public class PlayerClass {
     public void gainExp(Enemy a) {
         System.out.println("You have gained " + a.getExp() + " Exp.");
         this.exp += a.getExp();
-        if (this.exp >= maxExp) {
-            while (this.exp >= maxExp) {
+//        if (this.exp >= maxExp) {
+//            while (this.exp >= maxExp) {
+//                levelUp();
+//            }
+//        }
+//        else {
+//            System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
+//        }
+        if (this.exp < this.maxExp) {
+            System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
+        } else {
+            while (this.exp >= this.maxExp) {
                 levelUp();
             }
-        }
-        else {
-            System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
         }
     }
 
@@ -64,6 +71,11 @@ abstract public class PlayerClass {
         this.exp = remainExp;
         this.statPoints += 3;
         expNeeded(this.level);
+        this.maxHp += 5;
+        this.health = this.maxHp;
+        if (this.level % 2 == 0) {
+            this.attack += 1;
+        }
         System.out.println("Level: " + this.level);
         System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
     }
@@ -123,7 +135,7 @@ abstract public class PlayerClass {
         System.out.println("\n===== PLAYER STATS =====" +
                 "\nName: " + name +
                 "\nLevel: " + level +
-                "\nHealth: " + health +
+                "\nHealth: " + health + "/" + maxHp +
                 "\nAttack: " + attack +
                 "\n" + getUniqueStat() +
                 "\nMoney: " + money +
