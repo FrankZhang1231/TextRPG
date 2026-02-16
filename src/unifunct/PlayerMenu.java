@@ -22,7 +22,7 @@ public class PlayerMenu {
             }
         }
 
-        System.out.println("What will you do next: ");
+        System.out.println("\nWhat will you do next: ");
         for (String option : options) {
             System.out.println(option);
         }

@@ -41,7 +41,7 @@ abstract public class PlayerClass {
     }
 
     public void expNeeded(int level) {
-        this.maxExp = (int)(20 * Math.pow(1.2, level - 1));
+        this.maxExp = (int)(20 * Math.pow(1.5, level - 1));
     }
 
     public void gainExp(Enemy a) {
@@ -129,6 +129,10 @@ abstract public class PlayerClass {
                 System.out.println("Not a valid option.");
             }
         }
+    }
+
+    public void fullHeal() {
+        this.health = this.maxHp;
     }
 
     private void printStats() {
