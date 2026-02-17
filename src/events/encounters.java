@@ -2,6 +2,8 @@ package events;
 
 import npc.mobs.Enemy;
 import player.PlayerClass;
+import player.Weapons;
+import player.weapons.WoodenStick;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -24,12 +26,22 @@ public class encounters {
         switch (location) {
             case ("starter") -> {
                 events.put("rest", PlayerClass::fullHeal);
+                events.put("weapon", p ->{
+                    Weapons stick = new WoodenStick();
+                    Weapons wood = new Weapons("GodSlayingSword", "Weapon", 1000);
+                    player.addInv(stick);
+                    player.addInv(wood);
+                });
                 chosen = choosing(events);
                 switch(chosen) {
-                    case("rest") ->{
+                    case("rest") -> {
                         System.out.println("You found a deserted camp spot and decide to rest for a day.");
                         events.get(chosen).accept(player);
                         System.out.println("You wake up feeling refreshed.");
+                    }
+                    case("weapon") -> {
+                        events.get(chosen).accept(player);
+                        System.out.println("You found a long stick that looks more suitable for combat than your fist.");
                     }
                 }
             }

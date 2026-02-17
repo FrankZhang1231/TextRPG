@@ -17,6 +17,12 @@ abstract public class PlayerClass {
     protected int exp = 0;
     protected int maxExp;
     protected int statPoints = 0;
+    protected Weapons weaponName;
+    protected String armorName;
+    protected boolean haveWep = false;
+    protected boolean haveArmor = false;
+
+    private HashMap<String, InventoryItems> inventory = new HashMap<>();
 
 
     public PlayerClass(String name, int health, int attack) {
@@ -35,6 +41,10 @@ abstract public class PlayerClass {
 
     public int getMaxHp() { return this.maxHp; }
 
+    public String getWeapon() { return this.weaponName.getName(); }
+
+    public String getArmor() { return this.armorName; }
+
     public void attack(Enemy a) {
         System.out.println("\nYou dealt " + this.attack + " damage to " + a.getName() + ".");
         a.takeDamage(this.attack);
@@ -47,14 +57,6 @@ abstract public class PlayerClass {
     public void gainExp(Enemy a) {
         System.out.println("You have gained " + a.getExp() + " Exp.");
         this.exp += a.getExp();
-//        if (this.exp >= maxExp) {
-//            while (this.exp >= maxExp) {
-//                levelUp();
-//            }
-//        }
-//        else {
-//            System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
-//        }
         if (this.exp < this.maxExp) {
             System.out.println("Exp: " + this.exp + "/" + this.maxExp + "\n");
         } else {
@@ -90,8 +92,6 @@ abstract public class PlayerClass {
         int roll = (int)(Math.random() * 101);
         return roll <= successChance;
     }
-
-    public boolean death() { return this.health <= 0; }
 
     public void showStats() {
         while (true) {
@@ -135,6 +135,127 @@ abstract public class PlayerClass {
         this.health = this.maxHp;
     }
 
+    public void addInv(Weapons e) {
+        inventory.compute(e.getName(), (name, item) -> {
+            if (item == null) return new InventoryItems(e);
+            item.addQuantity(1);
+            return item;
+        });
+    }
+
+    public void displayInv() {
+        System.out.println("---------= Equipment ----------");
+        System.out.println("Weapon: " + (haveWep ? getWeapon() : "None"));
+        System.out.println("Armor: " + (haveArmor ? getArmor() : "None"));
+
+        if (inventory.isEmpty()) {
+            System.out.println("Your inventory is empty.\n");
+            return;
+        }
+
+        System.out.println("Your inventory:");
+        for (InventoryItems item : inventory.values()) {
+            Weapons weapon = item.getWeapon();
+            System.out.println("- (" + weapon.getType() + ") " + weapon.getName() +
+                    " -> Atk: " + weapon.getAttack() +
+                    "| x" + item.getQuantity());
+        }
+
+        System.out.println("---------------------------------------");
+
+        List<String> options = new ArrayList<>();
+
+        if (!inventory.isEmpty()) {
+            options.add("[1] Equip Weapon");
+            options.add("[2] Equip Armor");
+            options.add("[3] Sell Items");
+            options.add("[4] Back");
+        }
+
+        options.forEach(System.out::println);
+
+        String pChoice = input.nextLine();
+
+        if (!inventory.isEmpty()) {
+            switch (pChoice) {
+                case ("1") -> equipWep();
+                case ("2") -> System.out.println("Hello");
+                case ("3") -> sellItem();
+            }
+        }
+        else {
+            System.out.println("Not a valid option");
+        }
+
+    }
+
+    public void sellItem() {
+        System.out.println("What is the name of the item you want to sell: ");
+        String pChoice = input.nextLine();
+
+        String name;
+        int amount;
+
+        InventoryItems item = inventory.get(pChoice);
+        if (item == null) {
+            System.out.println("You don’t have that item in your inventory.");
+        } else {
+            while (true) {
+                name = item.getWeapon().getName();
+                System.out.println("How many of " + name + " would you like to sell?");
+                try {
+                    amount = Integer.parseInt(input.nextLine());
+                    System.out.println("You entered: " + amount);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please enter a number.");
+                    continue;
+                }
+                if (amount > 0 && amount <= item.getQuantity()) {
+                    item.deleteItem(amount);
+
+                    if (item.getQuantity() == 0) {
+                        inventory.remove(name);
+                    }
+                    System.out.println("You sold " + amount + " " + name);
+                    break;
+
+                } else {
+                    System.out.println("Please enter a valid amount to sell.");
+                }
+            }
+        }
+    }
+
+    public void equipWep() {
+        System.out.println("What is the name of the weapon you want to equip: ");
+        String pChoice = input.nextLine();
+
+
+        InventoryItems item = inventory.get(pChoice);
+
+        Weapons oldWep = this.weaponName;
+
+        if (item == null) {
+            System.out.println("You don’t own that weapon.");
+            return;
+        } else {
+            if (this.haveWep) {
+                this.weaponName = item.getWeapon();
+                this.attack -= oldWep.getAttack();
+                this.attack += item.getWeapon().getAttack();
+                addInv(oldWep);
+            } else {
+                this.weaponName = item.getWeapon();
+                this.attack += item.getWeapon().getAttack();
+                this.haveWep = true;
+            }
+        }
+        item.deleteItem(1);
+        if (item.getQuantity() == 0) {
+            inventory.remove(item.getWeapon().getName());
+        }
+    }
+
     private void printStats() {
         System.out.println("\n===== PLAYER STATS =====" +
                 "\nName: " + name +
@@ -150,4 +271,5 @@ abstract public class PlayerClass {
 
     abstract public void describe();
     abstract public String getUniqueStat();
+    public boolean death() { return this.health <= 0; }
 }
